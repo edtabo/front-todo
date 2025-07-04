@@ -45,10 +45,16 @@ export default function LoginPage() {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button
-        onClick={handleLogin}
-        className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-      >Entrar</button>
+      <div className="flex flex-col gap-2">
+        <button
+          onClick={handleLogin}
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+        >Entrar</button>
+        <button
+          onClick={() => router.push('/register')}
+          className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700"
+        >¿No tienes cuenta? Regístrate</button>
+      </div>
     </div>
   );
 }
