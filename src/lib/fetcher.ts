@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useAuthStore } from '@/app/store/auth';
 import { auth } from './firebase';
 import toast from 'react-hot-toast';

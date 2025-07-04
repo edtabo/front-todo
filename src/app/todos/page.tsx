@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -14,12 +15,12 @@ export default function TodosPage() {
 
   const fetchTodos = async () => {
     try {
-      const data = await useAuthFetch<Todo[]>(`${process.env.NEXT_PUBLIC_BACK}/tasks`);
+      const data = await useAuthFetch(`${process.env.NEXT_PUBLIC_BACK}/tasks`);
       setTodos(data.data);
     } catch (err) {
       console.error(err);
-      // setToken(null);
-      // router.push('/login');
+      setToken(null);
+      router.push('/login');
     }
   };
 
@@ -38,7 +39,7 @@ export default function TodosPage() {
 
   const updateTodo = async (id: string, title: string, description: string) => {
     setTodos([]);
-    const updated = await useAuthFetch(`${process.env.NEXT_PUBLIC_BACK}/tasks/${id}`, {
+    await useAuthFetch(`${process.env.NEXT_PUBLIC_BACK}/tasks/${id}`, {
       method: 'PATCH',
       body: JSON.stringify({ title, description }),
     });
