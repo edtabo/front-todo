@@ -18,9 +18,11 @@ export default function TodosPage() {
       const data = await useAuthFetch(`${process.env.NEXT_PUBLIC_BACK}/tasks`);
       setTodos(data.data);
     } catch (err) {
-      console.error(err);
-      setToken(null);
-      router.push('/login');
+      console.log(" 88888888888888888 ");
+      console.log(err);
+      console.log(" 88888888888888888 ");
+      // setToken(null);
+      // router.push('/login');
     }
   };
 
