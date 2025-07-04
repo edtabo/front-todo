@@ -14,17 +14,17 @@ export default function TodosPage() {
 
   const fetchTodos = async () => {
     try {
-      const data = await useAuthFetch<Todo[]>('/api/todos');
-      setTodos(data);
+      const data = await useAuthFetch<Todo[]>(`${process.env.NEXT_PUBLIC_BACK}/tasks`);
+      setTodos(data.data);
     } catch (err) {
       console.error(err);
-      setToken(null);
-      router.push('/login');
+      // setToken(null);
+      // router.push('/login');
     }
   };
 
   const addTodo = async (title: string, description: string) => {
-    const newTodo = await useAuthFetch<Todo>('/api/todos', {
+    const newTodo = await useAuthFetch<Todo>(`${process.env.NEXT_PUBLIC_BACK}/tasks`, {
       method: 'POST',
       body: JSON.stringify({ title, description }),
     });
@@ -32,16 +32,17 @@ export default function TodosPage() {
   };
 
   const deleteTodo = async (id: string) => {
-    await useAuthFetch(`/api/todos/${id}`, { method: 'DELETE' });
+    await useAuthFetch(`${process.env.NEXT_PUBLIC_BACK}/tasks/${id}`, { method: 'DELETE' });
     setTodos((prev) => prev.filter(todo => todo.id !== id));
   };
 
   const updateTodo = async (id: string, title: string, description: string) => {
-    const updated = await useAuthFetch<Todo>(`/api/todos/${id}`, {
-      method: 'PUT',
+    setTodos([]);
+    const updated = await useAuthFetch(`${process.env.NEXT_PUBLIC_BACK}/tasks/${id}`, {
+      method: 'PATCH',
       body: JSON.stringify({ title, description }),
     });
-    setTodos(todos.map(t => t.id === id ? updated : t));
+    fetchTodos();
   };
 
   return (
@@ -59,7 +60,9 @@ export default function TodosPage() {
           return true;
         }}
       />
-      <TodoList todos={todos} onDelete={deleteTodo} onUpdate={updateTodo} />
+      {todos.length > 0 && (
+        <TodoList todos={todos} onDelete={deleteTodo} onUpdate={updateTodo} />
+      )}
     </div>
   );
 }
