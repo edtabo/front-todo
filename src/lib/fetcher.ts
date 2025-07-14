@@ -11,7 +11,6 @@ export async function useAuthFetch<T = any>(
   const store = useAuthStore.getState();
   let token = store.token;
 
-  // Verifica si el token es válido
   const isValid = store.isTokenValid();
   if (!isValid && auth.currentUser) {
     try {
@@ -29,6 +28,7 @@ export async function useAuthFetch<T = any>(
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
       ...options.headers,
+      'Access-Control-Allow-Origin': '*',
     },
   });
 
