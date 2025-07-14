@@ -28,7 +28,7 @@ export async function useAuthFetch<T = any>(
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
       ...options.headers,
-      'Access-Control-Allow-Origin': '*',
+      credentials: 'include',
     },
   });
 
