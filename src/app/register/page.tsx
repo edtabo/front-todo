@@ -22,14 +22,23 @@ export default function RegisterPage() {
       await updateProfile(userCred.user, { displayName: fullName });
       const token = await userCred.user.getIdToken();
 
-      await fetch('/api/register', {
+      const response = await fetch( `${process.env.NEXT_PUBLIC_BACK}/auth`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token, fullName }),
+        headers: {
+          'authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json' 
+         },
+        body: JSON.stringify({ fullName }),
       });
+      const data = await response.json();
+      if(data.success) {
+        toast.success('Registro exitoso');
+        router.push('/login');
+      }
+      else {
+        toast.error('Error en el registro');
+      }
 
-      toast.success('Registro exitoso');
-      router.push('/login');
     } catch (err: any) {
       toast.error(err.message || 'Error en el registro');
     }

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 'use client';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthFetch } from '@/lib/fetcher';
 import { useAuthStore } from '../store/auth';
@@ -13,25 +13,35 @@ export default function TodosPage() {
   const { isTokenValid, setToken } = useAuthStore();
   const router = useRouter();
 
+  React.useEffect(() => {
+    if (!isTokenValid()) {
+      setToken(null);
+      router.push('/login');
+    }
+  }, [isTokenValid, setToken, router]);
+
   const fetchTodos = async () => {
     try {
-      const data = await useAuthFetch(`${process.env.NEXT_PUBLIC_BACK}/tasks`);
-      setTodos(data.data);
+      const req = await useAuthFetch(`${process.env.NEXT_PUBLIC_BACK}/tasks`);
+      setTodos(req.data);
     } catch (err) {
-      console.log(" 88888888888888888 ");
-      console.log(err);
-      console.log(" 88888888888888888 ");
-      // setToken(null);
-      // router.push('/login');
+      setToken(null);
+      router.push('/login');
     }
   };
 
   const addTodo = async (title: string, description: string) => {
-    const newTodo = await useAuthFetch<Todo>(`${process.env.NEXT_PUBLIC_BACK}/tasks`, {
-      method: 'POST',
-      body: JSON.stringify({ title, description }),
-    });
-    setTodos([...todos, newTodo]);
+    try {
+      const req = await useAuthFetch(`${process.env.NEXT_PUBLIC_BACK}/tasks`, {
+        method: 'POST',
+        body: JSON.stringify({ title, description }),
+      });
+      const newData: Todo = req.data;
+      setTodos([...todos, newData]);
+    } catch (error) {
+      setToken(null);
+      router.push('/login');
+    }
   };
 
   const deleteTodo = async (id: string) => {
