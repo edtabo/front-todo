@@ -24,7 +24,8 @@ export default function TodosPage() {
     try {
       const req = await useAuthFetch(`${process.env.NEXT_PUBLIC_BACK}/tasks`);
       setTodos(req.data);
-    } catch (err) {
+    } catch (error) {
+      console.log(error);
       setToken(null);
       router.push('/login');
     }
@@ -39,6 +40,7 @@ export default function TodosPage() {
       const newData: Todo = req.data;
       setTodos([...todos, newData]);
     } catch (error) {
+      console.log(error);
       setToken(null);
       router.push('/login');
     }
