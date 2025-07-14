@@ -46,12 +46,12 @@ export default function TodosPage() {
     }
   };
 
-  const deleteTodo = async (id: string) => {
+  const deleteTodo = async (id: number) => {
     await useAuthFetch(`${process.env.NEXT_PUBLIC_BACK}/tasks/${id}`, { method: 'DELETE' });
     setTodos((prev) => prev.filter(todo => todo.id !== id));
   };
 
-  const updateTodo = async (id: string, title: string, description: string) => {
+  const updateTodo = async (id: number, title: string, description: string) => {
     setTodos([]);
     await useAuthFetch(`${process.env.NEXT_PUBLIC_BACK}/tasks/${id}`, {
       method: 'PATCH',

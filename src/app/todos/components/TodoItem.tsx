@@ -4,8 +4,8 @@ import { useState } from 'react';
 
 interface Props {
   todo: Todo;
-  onDelete: (id: string) => void;
-  onUpdate: (id: string, title: string, description: string) => void;
+  onDelete: (id: number) => void;
+  onUpdate: (id: number, title: string, description: string) => void;
 }
 
 export default function TodoItem({ todo, onDelete, onUpdate }: Props) {
