@@ -15,7 +15,7 @@ export default function TodosPage() {
 
   React.useEffect(() => {
     if (!isTokenValid()) {
-      setToken(null);
+       setToken(null);
       router.push('/login');
     }
   }, [isTokenValid, setToken, router]);
@@ -25,9 +25,11 @@ export default function TodosPage() {
       const req = await useAuthFetch(`${process.env.NEXT_PUBLIC_BACK}/tasks`);
       setTodos(req.data);
     } catch (error) {
+      console.log(" EEEEEEEEEEEEEE ");
       console.log(error);
-      setToken(null);
-      router.push('/login');
+      console.log(" EEEEEEEEEEEEEE ");
+      // setToken(null);
+      // router.push('/login');
     }
   };
 

@@ -14,6 +14,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     if (!token) return false;
     const [, payload] = token.split('.');
     const decoded = JSON.parse(atob(payload));
-    return decoded.exp * 1000 > Date.now();
+    return decoded.exp > Math.floor(Date.now() / 1000);
   },
 }));
